@@ -2,6 +2,7 @@ package kr.co.jin0yoon.image_analysis_google_vision_api
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +15,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpListener(){
         upload_image.setOnClickListener {
-            UploadChooser().show(supportFragmentManager, "")
+            UploadChooser().apply {
+                //apply는 apply앞의 부분의 초기 설정을 할 때 유용하게 사용
+                //UploadChooser를 만들고 그 값들을 초기화하겠다.
+                //UploadChooser안의 함수들을 사용할 수 있음
+                addNotifier(object : UploadChooser.UploadChooserNotifierInterface{
+                    override fun cameraOnClick() {
+                        Log.d("upload", "cameraOnClick")
+                    }
+
+                    override fun galleryOnClick() {
+                        Log.d("upload", "galleryOnClick")
+                    }
+                })
+            }.show(supportFragmentManager, "")
         }
     }
 }
