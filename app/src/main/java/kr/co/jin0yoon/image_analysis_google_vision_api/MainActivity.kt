@@ -22,10 +22,12 @@ class MainActivity : AppCompatActivity() {
                 addNotifier(object : UploadChooser.UploadChooserNotifierInterface{
                     override fun cameraOnClick() {
                         Log.d("upload", "cameraOnClick")
+                        //카메라 권한
                     }
 
                     override fun galleryOnClick() {
                         Log.d("upload", "galleryOnClick")
+                        //사진첩 권한 (외부 저장소 접근)
                     }
                 })
             }.show(supportFragmentManager, "")
