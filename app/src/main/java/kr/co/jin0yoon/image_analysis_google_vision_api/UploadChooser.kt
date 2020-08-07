@@ -47,7 +47,7 @@ class UploadChooser : BottomSheetDialogFragment(){  //상속
 
             /*
             !! -> 무조건 있고 !!이후를 진행한다.
-            uploadChooserNotifierInterface가 무조건 있 cameraOnClick()를 호출한다.
+            uploadChooserNotifierInterface가 무조건 있으므로 cameraOnClick()를 호출한다.
             uploadChooserNotifierInterface!!.cameraOnClick()
              */
 
