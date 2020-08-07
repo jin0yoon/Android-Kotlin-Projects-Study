@@ -29,15 +29,14 @@ class PermissionUtil{
             if (!hasPermission){
                 permissionNeeded.add(it)
             }
-
-            if (granted){   //요청 권한이 모두 있는 경우
-                return true
-            }else{
-                //권한 요청
-                //arrayList를 string 배열로 바꿔주기 위해서 toTypedArray()를 해줌
-                ActivityCompat.requestPermissions(activity, permissionNeeded.toTypedArray(), requestCode)
-                return false
-            }
+        }
+        if (granted){   //요청 권한이 모두 있는 경우
+            return true
+        }else{
+            //권한 요청
+            //arrayList를 string 배열로 바꿔주기 위해서 toTypedArray()를 해줌
+            ActivityCompat.requestPermissions(activity, permissionNeeded.toTypedArray(), requestCode)
+            return false
         }
     }
 }
