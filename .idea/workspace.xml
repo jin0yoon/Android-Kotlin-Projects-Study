@@ -19,9 +19,13 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/kr/co/jin0yoon/image_analysis_google_vision_api/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/kr/co/jin0yoon/image_analysis_google_vision_api/MainActivity.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,9 +49,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="valueResourceFile" />
-        <option value="resourceFile" />
         <option value="layoutResourceFile" />
         <option value="Kotlin File" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -147,34 +151,36 @@
       <screen x="0" y="23" width="1792" height="1017" />
     </state>
     <state x="659" y="254" key="#com.intellij.ide.util.MemberChooser/0.23.1792.1017@0.23.1792.1017" timestamp="1596015113473" />
-    <state x="484" y="293" key="AndroidCreateResourceFileDialog" timestamp="1596013405140">
-      <screen x="0" y="23" width="1792" height="1017" />
+    <state x="484" y="297" key="AndroidCreateResourceFileDialog" timestamp="1596973347135">
+      <screen x="0" y="0" width="1792" height="1120" />
     </state>
+    <state x="484" y="297" key="AndroidCreateResourceFileDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1596973347135" />
     <state x="484" y="293" key="AndroidCreateResourceFileDialog/0.23.1792.1017@0.23.1792.1017" timestamp="1596013405140" />
     <state x="484" y="293" key="AndroidCreateResourceFileDialog/0.23.1792.1018@0.23.1792.1018" timestamp="1595850965594" />
-    <state width="1238" height="317" key="GridCell.Tab.0.bottom" timestamp="1596796979637">
+    <state width="1750" height="317" key="GridCell.Tab.0.bottom" timestamp="1596973562856">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1238" height="317" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1596796979637" />
+    <state width="1750" height="317" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1596973562856" />
     <state width="1750" height="276" key="GridCell.Tab.0.bottom/0.23.1792.1017@0.23.1792.1017" timestamp="1596015728877" />
-    <state width="1238" height="317" key="GridCell.Tab.0.center" timestamp="1596796979637">
+    <state width="1750" height="317" key="GridCell.Tab.0.center" timestamp="1596973562856">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1238" height="317" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1596796979637" />
+    <state width="1750" height="317" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1596973562856" />
     <state width="1750" height="276" key="GridCell.Tab.0.center/0.23.1792.1017@0.23.1792.1017" timestamp="1596015728876" />
-    <state width="1238" height="317" key="GridCell.Tab.0.left" timestamp="1596796979636">
+    <state width="1750" height="317" key="GridCell.Tab.0.left" timestamp="1596973562855">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1238" height="317" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1596796979636" />
+    <state width="1750" height="317" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1596973562855" />
     <state width="1750" height="276" key="GridCell.Tab.0.left/0.23.1792.1017@0.23.1792.1017" timestamp="1596015728876" />
-    <state width="1238" height="317" key="GridCell.Tab.0.right" timestamp="1596796979637">
+    <state width="1750" height="317" key="GridCell.Tab.0.right" timestamp="1596973562856">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1238" height="317" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1596796979637" />
+    <state width="1750" height="317" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1596973562856" />
     <state width="1750" height="276" key="GridCell.Tab.0.right/0.23.1792.1017@0.23.1792.1017" timestamp="1596015728876" />
-    <state x="545" y="365" key="com.intellij.ide.util.TipDialog" timestamp="1596793382414">
-      <screen x="0" y="23" width="1792" height="1020" />
+    <state x="545" y="376" key="com.intellij.ide.util.TipDialog" timestamp="1597052293750">
+      <screen x="0" y="0" width="1792" height="1120" />
     </state>
+    <state x="545" y="376" key="com.intellij.ide.util.TipDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1597052293750" />
     <state x="545" y="364" key="com.intellij.ide.util.TipDialog/0.23.1792.1017@0.23.1792.1017" timestamp="1595910166614" />
     <state x="545" y="364" key="com.intellij.ide.util.TipDialog/0.23.1792.1018@0.23.1792.1018" timestamp="1595850828294" />
     <state x="545" y="365" key="com.intellij.ide.util.TipDialog/0.23.1792.1020@0.23.1792.1020" timestamp="1596793382414" />
