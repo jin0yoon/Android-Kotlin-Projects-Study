@@ -129,6 +129,8 @@ class MainActivity : AppCompatActivity() {
 
         //bitmap을 ImageView에 넣어주면 됨
         uploaded_image.setImageBitmap(bitmap)
+
+        uploadChooser?.dismiss()
     }
 
     //사진 file을 만드는 함수
