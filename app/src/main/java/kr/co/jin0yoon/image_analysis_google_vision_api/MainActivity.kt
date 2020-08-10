@@ -63,8 +63,11 @@ class MainActivity : AppCompatActivity() {
     }
     private fun checkGalleryPermission(){
         //유틸리티 사용
-        PermissionUtil().requestPermission(
+        if(PermissionUtil().requestPermission(
             this, GALLERY_PERMISION_REQUEST, Manifest.permission.READ_EXTERNAL_STORAGE)
+        ){
+            openGallery()
+        }
     }
 
     private fun openCamera(){
@@ -80,6 +83,14 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun openGallery(){
+        val intent = Intent().apply {
+            setType("image/*")
+            setAction(Intent.ACTION_GET_CONTENT)
+        }
+        startActivityForResult(Intent.createChooser(intent, "Select a photo"), GALLERY_PERMISION_REQUEST)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -90,6 +101,17 @@ class MainActivity : AppCompatActivity() {
 
                 val photoUri = FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", createCameraFile())
                 uploadImage(photoUri)
+            }
+            GALLERY_PERMISION_REQUEST -> {
+                //data가 null이 아니면 let이하를 실행하겠다
+//                if (data != null){
+//
+//                }
+                //java에서의 위 코드와 동일
+                data?.let {
+                    //이 안에서는 data가 it으로 사용됨
+                    it.data?.let { it1 -> uploadImage(it1) }
+                }
             }
         }
     }
@@ -118,7 +140,9 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode){
             GALLERY_PERMISION_REQUEST -> {
-
+                if (PermissionUtil().permissionGranted(requestCode, GALLERY_PERMISION_REQUEST, grantResults)){
+                    openGallery()
+                }
             }
             CAMERA_PERMISION_REQUEST -> {
                 if (PermissionUtil().permissionGranted(requestCode, CAMERA_PERMISION_REQUEST, grantResults)){
