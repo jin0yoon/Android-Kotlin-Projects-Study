@@ -106,6 +106,8 @@ class MainActivity : AppCompatActivity() {
 
                 val photoUri = FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", createCameraFile())
                 uploadImage(photoUri)
+
+                //여기에 찍은 사진을 갤러리에 저장하는 코드 삽입 필요 
             }
             GALLERY_PERMISION_REQUEST -> {
                 //data가 null이 아니면 let이하를 실행하겠다
