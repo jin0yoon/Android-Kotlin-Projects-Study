@@ -155,15 +155,15 @@ class MainActivity : AppCompatActivity() {
         val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File(dir, FILE_NAME)
     }
+    
 
     //찍은 사진을 갤러리에 저장하는 함수
     private fun galleryAddPic(photoUri: Uri) {
-        Log.i("galleryAddPic", "Call");
-        val mediaScanIntent: Intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-
-        mediaScanIntent.setData(photoUri);
-        sendBroadcast(mediaScanIntent);
-        Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
+        Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
+            mediaScanIntent.data = photoUri
+            sendBroadcast(mediaScanIntent)
+            Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     override fun onRequestPermissionsResult(
