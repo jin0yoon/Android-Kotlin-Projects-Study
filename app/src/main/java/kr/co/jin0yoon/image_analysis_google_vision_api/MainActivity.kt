@@ -4,12 +4,15 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_analyze_view.*
@@ -61,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkCameraPermission(){
         //유틸리티 사용
         if(PermissionUtil().requestPermission(
-            this, CAMERA_PERMISION_REQUEST, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+            this, CAMERA_PERMISION_REQUEST, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ){
             openCamera()
         }
@@ -107,7 +110,8 @@ class MainActivity : AppCompatActivity() {
                 val photoUri = FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", createCameraFile())
                 uploadImage(photoUri)
 
-                //여기에 찍은 사진을 갤러리에 저장하는 코드 삽입 필요 
+                //여기에 찍은 사진을 갤러리에 저장하는 코드 삽입 필요
+                galleryAddPic(photoUri)
             }
             GALLERY_PERMISION_REQUEST -> {
                 //data가 null이 아니면 let이하를 실행하겠다
@@ -124,13 +128,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun uploadImage(imageUri:Uri){
-        //사진 type은 Bitmap
-        val bitmap : Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)   //imageUri의 이미지의 Bitmap을 가져옴
-        //java에서는 getContentResolver로 가져와야 함
-        //kotlin에서는 getter, setter 구분이 없으므로 그냥 contentResolver로 가져오면 됨
 
-        //bitmap을 ImageView에 넣어주면 됨
-        uploaded_image.setImageBitmap(bitmap)
+        //.getBitmap이 28이상부터 deprecated되므로 두가지로 구분하여 코드 작성 필
+        //사진 type은 Bitmap
+        if (Build.VERSION.SDK_INT < 28) {
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)  //imageUri의 이미지의 Bitmap을 가져옴
+            //java에서는 getContentResolver로 가져와야 함
+            //kotlin에서는 getter, setter 구분이 없으므로 그냥 contentResolver로 가져오면 됨
+
+            //bitmap을 ImageView에 넣어주면 됨
+            uploaded_image.setImageBitmap(bitmap)
+        }
+        else{
+            val decode = ImageDecoder.createSource(this.contentResolver, imageUri)
+            val bitmap = ImageDecoder.decodeBitmap(decode)
+
+            //bitmap을 ImageView에 넣어주면 됨
+            uploaded_image.setImageBitmap(bitmap)
+        }
 
         uploadChooser?.dismiss()
     }
@@ -139,6 +154,16 @@ class MainActivity : AppCompatActivity() {
     private fun createCameraFile():File{
         val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File(dir, FILE_NAME)
+    }
+
+    //찍은 사진을 갤러리에 저장하는 함수
+    private fun galleryAddPic(photoUri: Uri) {
+        Log.i("galleryAddPic", "Call");
+        val mediaScanIntent: Intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+
+        mediaScanIntent.setData(photoUri);
+        sendBroadcast(mediaScanIntent);
+        Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
     }
 
     override fun onRequestPermissionsResult(
