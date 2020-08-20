@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,9 +15,14 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import com.google.api.services.vision.v1.Vision
+import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_analyze_view.*
 import java.io.File
+import java.lang.Exception
+import java.lang.ref.WeakReference
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -128,11 +134,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun uploadImage(imageUri:Uri){
+        val bitmap : Bitmap
 
         //.getBitmap이 28이상부터 deprecated되므로 두가지로 구분하여 코드 작성 필
         //사진 type은 Bitmap
         if (Build.VERSION.SDK_INT < 28) {
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)  //imageUri의 이미지의 Bitmap을 가져옴
+            bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)  //imageUri의 이미지의 Bitmap을 가져옴
             //java에서는 getContentResolver로 가져와야 함
             //kotlin에서는 getter, setter 구분이 없으므로 그냥 contentResolver로 가져오면 됨
 
@@ -141,13 +148,68 @@ class MainActivity : AppCompatActivity() {
         }
         else{
             val decode = ImageDecoder.createSource(this.contentResolver, imageUri)
-            val bitmap = ImageDecoder.decodeBitmap(decode)
+            bitmap = ImageDecoder.decodeBitmap(decode)
 
             //bitmap을 ImageView에 넣어주면 됨
             uploaded_image.setImageBitmap(bitmap)
         }
 
         uploadChooser?.dismiss()
+        requestCloudVisionApi(bitmap)
+    }
+
+    private fun requestCloudVisionApi(bitmap: Bitmap){
+
+    }
+
+    //AsyncTack
+    inner class ImageRequestTask constructor(
+        activity: MainActivity,
+        val request: Vision.Images.Annotate
+
+        //constructor에서 받은 변수들 앞에 val, var을 붙일 수 있음
+        //변수 사용 목적에 따라서 설정을 해줘야 할 때도 있고 하지 말아야 할 때도 있음
+        //class가 가지고 있는 함수 내에서도 변수를 사용하고 싶으면 val, var를 붙여줘야 함
+        //val를 붙여주지 않으면 doInBackground에서 activity 변수를 사용할 수 없음
+//        val activity: MainActivity,
+//        var request: Vision.Images.Annotate
+
+    ) : AsyncTask<Any, Void, String>(){
+
+        private val weakReference : WeakReference<MainActivity>
+
+        init {
+            weakReference = WeakReference(activity)
+        }
+
+        override fun doInBackground(vararg p0: Any?): String {
+            try {
+                val response = request.execute()
+                return convertResponseToString(response)
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+            return "분석 실패"
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+        }
+
+    }
+
+    private fun convertResponseToString(response: BatchAnnotateImagesResponse) : String {
+        val message = StringBuilder("분석 결과\n")
+        val labels = response.responses[0].labelAnnotations
+        labels?.let {
+            it.forEach {
+                message.append(String.format(Locale.US, "%.3f: %s", it.score, it.description))
+                //3.3333: 설명
+                message.append("\n")
+            }
+            return message.toString()
+        }
+        return "분석 실패"
     }
 
     //사진 file을 만드는 함수
@@ -155,7 +217,7 @@ class MainActivity : AppCompatActivity() {
         val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File(dir, FILE_NAME)
     }
-    
+
 
     //찍은 사진을 갤러리에 저장하는 함수
     private fun galleryAddPic(photoUri: Uri) {
