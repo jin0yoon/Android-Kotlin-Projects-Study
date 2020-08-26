@@ -15,7 +15,11 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import com.google.api.client.extensions.android.http.AndroidHttp
+import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.vision.v1.Vision
+import com.google.api.services.vision.v1.VisionRequest
+import com.google.api.services.vision.v1.VisionRequestInitializer
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_analyze_view.*
@@ -33,6 +37,10 @@ class MainActivity : AppCompatActivity() {
     private val FILE_NAME = "picture.jpg"
 
     private var uploadChooser : UploadChooser? = null
+
+    private val CLOUD_VISION_API_KEY = "AIzaSyAsRG3GL6duexyGSzO6l70UHejNUJJQniQ"
+
+    private val ANDROID_PACKAGE_HEADER = "X-Android-Package"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -160,6 +168,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestCloudVisionApi(bitmap: Bitmap){
 
+//        val visionTask = ImageRequestTask(this, )
+    }
+
+    private fun prepareImageRequest(bitmap: Bitmap): Vision.Images.Annotate{
+        val httpTransport = AndroidHttp.newCompatibleTransport()
+        val jsonFactory = GsonFactory.getDefaultInstance()
+
+        val requestInitializer = object : VisionRequestInitializer(CLOUD_VISION_API_KEY){
+            override fun initializeVisionRequest(request: VisionRequest<*>?) {
+                super.initializeVisionRequest(request)
+
+                val packageName = packageName
+                request?.requestHeaders?.set(ANDROID_PACKAGE_HEADER, packageName)
+//                val sig =
+            }
+        }
     }
 
     //AsyncTack
