@@ -20,9 +20,10 @@ import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.vision.v1.Vision
 import com.google.api.services.vision.v1.VisionRequest
 import com.google.api.services.vision.v1.VisionRequestInitializer
-import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse
+import com.google.api.services.vision.v1.model.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_analyze_view.*
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.lang.Exception
 import java.lang.ref.WeakReference
@@ -41,6 +42,10 @@ class MainActivity : AppCompatActivity() {
     private val CLOUD_VISION_API_KEY = "AIzaSyAsRG3GL6duexyGSzO6l70UHejNUJJQniQ"
 
     private val ANDROID_PACKAGE_HEADER = "X-Android-Package"
+
+    private val ANDROID_CERT_HEADER = "X-Android-Cert"
+
+    private val MAX_LABEL_RESULTS = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -181,9 +186,41 @@ class MainActivity : AppCompatActivity() {
 
                 val packageName = packageName
                 request?.requestHeaders?.set(ANDROID_PACKAGE_HEADER, packageName)
-//                val sig =
+                val sig = PackageManagerUtil().getSignature(packageManager, packageName)
+                request?.requestHeaders?.set(ANDROID_CERT_HEADER, sig)
             }
         }
+        val builder = Vision.Builder(httpTransport, jsonFactory, null)
+        builder.setVisionRequestInitializer(requestInitializer)
+        val vision = builder.build()
+
+        val batchAnnotateImagesRequest = BatchAnnotateImagesRequest()
+        batchAnnotateImagesRequest.requests = object : ArrayList<AnnotateImageRequest>(){
+            init {
+                val annotateImageRequest = AnnotateImageRequest()
+
+                val base64EncodedImage = Image()
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream)
+                val imageBytes = byteArrayOutputStream.toByteArray()
+
+                base64EncodedImage.encodeContent(imageBytes)
+                annotateImageRequest.image = base64EncodedImage
+
+                annotateImageRequest.features = object : ArrayList<Feature>(){
+                    init {
+                        val labelDetection = Feature()
+                        labelDetection.type = "LABEL_DETECTION"
+                        labelDetection.maxResults = MAX_LABEL_RESULTS
+                        add(labelDetection)
+                    }
+                }
+                add(annotateImageRequest)
+            }
+        }
+        val annotateRequest = vision.Images().annotate(batchAnnotateImagesRequest)
+        annotateRequest.setDisableGZipContent(true)
+        return annotateRequest
     }
 
     //AsyncTack
