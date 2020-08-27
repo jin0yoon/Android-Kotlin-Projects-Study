@@ -172,8 +172,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestCloudVisionApi(bitmap: Bitmap){
-
-//        val visionTask = ImageRequestTask(this, )
+        val visionTask = ImageRequestTask(this, prepareImageRequest(bitmap))
+        visionTask.execute()
     }
 
     private fun prepareImageRequest(bitmap: Bitmap): Vision.Images.Annotate{
@@ -254,7 +254,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
+            val activity = weakReference.get()
+            if (activity != null && !activity.isFinishing){
+                uploaded_image_result.text = result
+            }
         }
 
     }
