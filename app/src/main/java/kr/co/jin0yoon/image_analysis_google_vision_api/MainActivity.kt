@@ -34,17 +34,11 @@ class MainActivity : AppCompatActivity() {
     //구별하기 위한 식별자
     private val CAMERA_PERMISION_REQUEST = 1000
     private val GALLERY_PERMISION_REQUEST = 1001
-
     private val FILE_NAME = "picture.jpg"
-
     private var uploadChooser : UploadChooser? = null
-
     private val CLOUD_VISION_API_KEY = "AIzaSyAsRG3GL6duexyGSzO6l70UHejNUJJQniQ"
-
     private val ANDROID_PACKAGE_HEADER = "X-Android-Package"
-
     private val ANDROID_CERT_HEADER = "X-Android-Cert"
-
     private val MAX_LABEL_RESULTS = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -168,7 +162,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         uploadChooser?.dismiss()
-        requestCloudVisionApi(bitmap)
+
+        //업로드 할 사진이 준비되어 있는 상황이므로 여기에서 google vision api로 사진을 전송한다.
+        //AsyncTask를 사용
+       requestCloudVisionApi(bitmap)
     }
 
     private fun requestCloudVisionApi(bitmap: Bitmap){
