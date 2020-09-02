@@ -169,6 +169,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestCloudVisionApi(bitmap: Bitmap){
+        //AsyncTask를 만들어서 사용
         val visionTask = ImageRequestTask(this, prepareImageRequest(bitmap))
         visionTask.execute()
     }
@@ -221,9 +222,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     //AsyncTack
+    //inner class로 만듬
     inner class ImageRequestTask constructor(
         activity: MainActivity,
-        val request: Vision.Images.Annotate
+        val request: Vision.Images.Annotate  //request는 Vision.Images.Annotate type
 
         //constructor에서 받은 변수들 앞에 val, var을 붙일 수 있음
         //변수 사용 목적에 따라서 설정을 해줘야 할 때도 있고 하지 말아야 할 때도 있음
@@ -232,7 +234,7 @@ class MainActivity : AppCompatActivity() {
 //        val activity: MainActivity,
 //        var request: Vision.Images.Annotate
 
-    ) : AsyncTask<Any, Void, String>(){
+    ) : AsyncTask<Any, Void, String>(){   //return type은 AsyncTask
 
         private val weakReference : WeakReference<MainActivity>
 
