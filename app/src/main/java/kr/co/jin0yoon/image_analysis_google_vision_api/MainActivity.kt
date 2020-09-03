@@ -227,25 +227,36 @@ class MainActivity : AppCompatActivity() {
         activity: MainActivity,
         val request: Vision.Images.Annotate  //request는 Vision.Images.Annotate type
 
+        //kotlin에는 constructor가 2가지 종류가 있음
+        //primary constructor, secondary constructor
+        //primary constructor -> class를 적어주는 라인에서 작성하는 것
+        //secondary constructor -> class 내부에 작성하는 것
+        //primary는 생략을 해줘도 상관 없음
+
         //constructor에서 받은 변수들 앞에 val, var을 붙일 수 있음
         //변수 사용 목적에 따라서 설정을 해줘야 할 때도 있고 하지 말아야 할 때도 있음
         //class가 가지고 있는 함수 내에서도 변수를 사용하고 싶으면 val, var를 붙여줘야 함
-        //val를 붙여주지 않으면 doInBackground에서 activity 변수를 사용할 수 없음
+        //val를 붙여주지 않으면 doInBackground에서 activity 변수를 사용할 수 없음  * 붙이지 않아도 init{}에서는 변수를 사용할 수 있음
 //        val activity: MainActivity,
 //        var request: Vision.Images.Annotate
 
     ) : AsyncTask<Any, Void, String>(){   //return type은 AsyncTask
 
-        private val weakReference : WeakReference<MainActivity>
+        private val weakReference : WeakReference<MainActivity> //weakReference<MainActivity> type의 weakReference 선언
 
-        init {
+        //class 내부의 변수를 선언 할 때, 자바에서는 타입, 변수명만 적어주면 되지만,
+        //kotlin의 경우에는 변수의 초기값들을 반드시 initialize 해줘야 함
+        //init{}을 통해 초기값을 initialize 해준다.
+       init {
             weakReference = WeakReference(activity)
         }
 
-        override fun doInBackground(vararg p0: Any?): String {
+        //통신 작업을 doInBackground에서 해줌
+        //doInBackground(), onPostExecute()를 override 해준다.
+        override fun doInBackground(vararg p0: Any?): String {  //return type은 String
             try {
-                val response = request.execute()
-                return convertResponseToString(response)
+                val response = request.execute()  //request.excute()로 request를 보내면 response를 받아줌
+                return convertResponseToString(response)   //결과인 이미지 분석 결과를 string으로 표시를 할 것이므로 response를 string으로 변환을 해줘야 함
             }catch (e: Exception){
                 e.printStackTrace()
             }
