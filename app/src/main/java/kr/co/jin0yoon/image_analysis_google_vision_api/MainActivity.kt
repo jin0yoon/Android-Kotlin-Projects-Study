@@ -257,7 +257,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val response = request.execute()  //request.excute()로 request를 보내면 response를 받아줌
                 return convertResponseToString(response)   //결과인 이미지 분석 결과를 string으로 표시를 할 것이므로 response를 string으로 변환을 해줘야 함
-            }catch (e: Exception){
+            }catch (e: Exception){     //예외처리
                 e.printStackTrace()
             }
             return "분석 실패"
@@ -272,14 +272,21 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //response를 string으로 바꿔주는 함수
+    //google vision api에게 이미지를 전달하게 되면, response로 BatchAnnotateImagesResponse의 형태로 보내줌
+    //BatchAnnotateImagesResponse 형태로 받아진 response를 우리가 원하는 형태인 string으로 바꿔주면 됨
     private fun convertResponseToString(response: BatchAnnotateImagesResponse) : String {
         val message = StringBuilder("분석 결과\n")
         val labels = response.responses[0].labelAnnotations
         labels?.let {
             it.forEach {
+                //String.format -> string을 정해준 형태로 변환해줌
+                //google vision api는 기본적으로 영어로 주기 때문에 언어는 영어인 Locale.US로 지정
+                //%.3f -> 소수점 네자리까지만
+                //string은 %s
+                //'3.3333: 설명' 의 형태
                 message.append(String.format(Locale.US, "%.3f: %s", it.score, it.description))
-                //3.3333: 설명
-                message.append("\n")
+                message.append("\n")  //줄바꿈
             }
             return message.toString()
         }
