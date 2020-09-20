@@ -174,16 +174,22 @@ class MainActivity : AppCompatActivity() {
         visionTask.execute()
     }
 
-    private fun prepareImageRequest(bitmap: Bitmap): Vision.Images.Annotate{
+    private fun prepareImageRequest(bitmap: Bitmap): Vision.Images.Annotate{   //return type : Vision.Images.Annotate
         val httpTransport = AndroidHttp.newCompatibleTransport()
         val jsonFactory = GsonFactory.getDefaultInstance()
 
-        val requestInitializer = object : VisionRequestInitializer(CLOUD_VISION_API_KEY){
-            override fun initializeVisionRequest(request: VisionRequest<*>?) {
+        //requestInitializer라는 것 -> 서버로 요청을 보내는 것을 request를 보낸대고 하는데, request에는 여러가지 것들을 할 수 있는데, request에서 header라는 것이 있음
+        //header를 설정해주는 부분
+        //header가 어떻게 생겼는지는 실제로 요청을 보낸 다음에 프로파일러를 통해서 지금 설정한 것이 어떻게 반영돼서 request가 나가는 지 확인할 수 있음
+        val requestInitializer = object : VisionRequestInitializer(CLOUD_VISION_API_KEY){   //key를 넣어줘야 함. google api에서 생성한 key
+            override fun initializeVisionRequest(request: VisionRequest<*>?) {  //request는 nullable
                 super.initializeVisionRequest(request)
 
                 val packageName = packageName
                 request?.requestHeaders?.set(ANDROID_PACKAGE_HEADER, packageName)
+
+                //header에다가 ANDROID_PACKAGE_HEADER말고 다른 header를 붙여줘야 함
+                //그 header를 만들어주는 유틸리티 -> PackageManagerUtil
                 val sig = PackageManagerUtil().getSignature(packageManager, packageName)
                 request?.requestHeaders?.set(ANDROID_CERT_HEADER, sig)
             }
@@ -255,6 +261,7 @@ class MainActivity : AppCompatActivity() {
         //doInBackground(), onPostExecute()를 override 해준다.
         override fun doInBackground(vararg p0: Any?): String {  //return type은 String
             try {
+                //execute는 google api에 요청한다는 것
                 val response = request.execute()  //request.excute()로 request를 보내면 response를 받아줌
                 return convertResponseToString(response)   //결과인 이미지 분석 결과를 string으로 표시를 할 것이므로 response를 string으로 변환을 해줘야 함
             }catch (e: Exception){     //예외처리
