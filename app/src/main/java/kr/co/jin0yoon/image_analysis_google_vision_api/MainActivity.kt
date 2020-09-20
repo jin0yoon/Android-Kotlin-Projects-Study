@@ -170,8 +170,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestCloudVisionApi(bitmap: Bitmap){
         //AsyncTask를 만들어서 사용
-        val visionTask = ImageRequestTask(this, prepareImageRequest(bitmap))
-        visionTask.execute()
+        val visionTask = ImageRequestTask(this, prepareImageRequest(bitmap))  //Vision.Images.Annotate를 만들어주어야 하는데, 이걸 만들어주는 prepareImageRequest() 함수를 만들었음.
+        visionTask.execute()    //visionTask를 실행
     }
 
     //여기부터 google api로 보낼 request를 만드는 부분
@@ -288,9 +288,15 @@ class MainActivity : AppCompatActivity() {
             return "분석 실패"
         }
 
+        //doInBackground에서 처리한 결과값을 표기하는 작업
         override fun onPostExecute(result: String?) {
+            //네트워크에서 해주면 좋은 방어코드
+            //새로운 스레드를 만들어서 그 곳에서 작업
+            //스레드가 돌아가는 동안에도 mainactivity도 작동하기 때문에
+            //response가 오기 전에 사용자가 activity를 나가게 되면 그 이후 response가 와서 setTextview를 하게되면 오류가 발생
+            //이러한 경우를 대처하기 위한 방어코드
             val activity = weakReference.get()
-            if (activity != null && !activity.isFinishing){
+            if (activity != null && !activity.isFinishing){  //!activity.isFinishing -> activity가 종료되는 중이 아니라면
                 uploaded_image_result.text = result
             }
         }
