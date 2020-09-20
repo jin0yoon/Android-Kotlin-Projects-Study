@@ -7,13 +7,14 @@ import java.lang.Exception
 import java.security.MessageDigest
 
 class PackageManagerUtil{
+    //signature를 받아오는 함수
     fun getSignature(pm: PackageManager, pakageName: String): String? {
         try {
             val packageInfo = pm.getPackageInfo(pakageName, PackageManager.GET_SIGNATURES)
             return if (packageInfo == null
                     || packageInfo.signatures == null
                     || packageInfo.signatures.size == 0
-                    ||packageInfo.signatures[0] == null
+                    || packageInfo.signatures[0] == null
             ){
                 null
             }else{
