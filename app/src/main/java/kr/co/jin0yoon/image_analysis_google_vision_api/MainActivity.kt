@@ -174,13 +174,16 @@ class MainActivity : AppCompatActivity() {
         visionTask.execute()
     }
 
+    //여기부터 google api로 보낼 request를 만드는 부분
     private fun prepareImageRequest(bitmap: Bitmap): Vision.Images.Annotate{   //return type : Vision.Images.Annotate
+        //여기부터 api에 보낼 request의 Header 부분
         val httpTransport = AndroidHttp.newCompatibleTransport()
         val jsonFactory = GsonFactory.getDefaultInstance()
 
-        //requestInitializer라는 것 -> 서버로 요청을 보내는 것을 request를 보낸대고 하는데, request에는 여러가지 것들을 할 수 있는데, request에서 header라는 것이 있음
-        //header를 설정해주는 부분
-        //header가 어떻게 생겼는지는 실제로 요청을 보낸 다음에 프로파일러를 통해서 지금 설정한 것이 어떻게 반영돼서 request가 나가는 지 확인할 수 있음
+        //requestInitializer라는 것 -> 서버로 요청을 보내는 것을 request를 보낸대고 하는데, request에는 여러가지 것들을 할 수 있는데, request에서 Header라는 것이 있음
+        //Header를 설정해주는 부분
+        //Header가 어떻게 생겼는지는 실제로 요청을 보낸 다음에 프로파일러를 통해서 지금 설정한 것이 어떻게 반영돼서 request가 나가는 지 확인할 수 있음
+        //request를 보낼 때 Header라는 곳에 특정 key, value값들을 넣어줄 수 있음
         val requestInitializer = object : VisionRequestInitializer(CLOUD_VISION_API_KEY){   //key를 넣어줘야 함. google api에서 생성한 key
             override fun initializeVisionRequest(request: VisionRequest<*>?) {  //request는 nullable
                 super.initializeVisionRequest(request)
@@ -188,12 +191,14 @@ class MainActivity : AppCompatActivity() {
                 val packageName = packageName
                 request?.requestHeaders?.set(ANDROID_PACKAGE_HEADER, packageName)
 
-                //header에다가 ANDROID_PACKAGE_HEADER말고 다른 header를 붙여줘야 함
-                //그 header를 만들어주는 유틸리티 -> PackageManagerUtil
+                //Header에다가 ANDROID_PACKAGE_HEADER말고 다른 Header를 붙여줘야 함
+                //그 Header를 만들어주는 유틸리티 -> PackageManagerUtil
                 val sig = PackageManagerUtil().getSignature(packageManager, packageName)
                 request?.requestHeaders?.set(ANDROID_CERT_HEADER, sig)
             }
-        }
+        }//여기까지 Header 부분
+
+
         val builder = Vision.Builder(httpTransport, jsonFactory, null)
         builder.setVisionRequestInitializer(requestInitializer)
         val vision = builder.build()
@@ -203,29 +208,42 @@ class MainActivity : AppCompatActivity() {
             init {
                 val annotateImageRequest = AnnotateImageRequest()
 
-                val base64EncodedImage = Image()
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream)
-                val imageBytes = byteArrayOutputStream.toByteArray()
+                //request를 보낼 때 사진첩이나 카메라에서 가져온 이미지를 전송해야 하는데
+                //이미지를 전송하는 방법 중 하나가 이미지를 전부 byteArray로 바꿈
+                //이미지라는 것이 우리 눈에는 색상이 있어보이지만 사실상 0,1로 된 byte로 된 숫자의 나열일 뿐
+                //그래서 이미지를 전송하기 위해서 이미지를 byteArray로 바꿔서 전송해줌
+                //즉, 사진첩이나 카메라로 부터 가져온 이미지를 request에 실어보내기 위해서 이미지를 일정한 format으로 만들어주고, 그 다음 byte로 바꿔주는 작업을 하는 것
+                //여기부터 이미지를 byteArray로 뱌꿔주는 부분
+                val base64EncodedImage = Image() //base64로 encoding 된 image인 base64EncodedImage 변수
+                val byteArrayOutputStream = ByteArrayOutputStream() // byteArrayOutputStream 변수
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream)  //bitmap 압축. format은 JPEG, 퀄리티는 90으로 압축  //압축시킨 것을 byteArrayOutputStream에 넣어줌
+                val imageBytes = byteArrayOutputStream.toByteArray()  //byteArrayOutputStream을 byteArray로 바꿈
 
                 base64EncodedImage.encodeContent(imageBytes)
                 annotateImageRequest.image = base64EncodedImage
+                //여기까지 이미지를 byteArray로 뱌꿔주는 부분
 
+                //google vision api에 요청할 것은 이 이미지를 전달하여 그 이미지의 특징들을 요청
+                //그 특징을 labelDetection이라고 함
+                //보낼 요청의 설정을 해주는 부분
+                //labelDetection을 할 것이고, 최대 10개만 받겠다.
                 annotateImageRequest.features = object : ArrayList<Feature>(){
                     init {
-                        val labelDetection = Feature()
-                        labelDetection.type = "LABEL_DETECTION"
-                        labelDetection.maxResults = MAX_LABEL_RESULTS
+                        val labelDetection = Feature()   //labelDetection이라는 feature를 만듬
+                        labelDetection.type = "LABEL_DETECTION"  //feature의 type을 "LABEL_DETECTION"으로 해줌
+                        labelDetection.maxResults = MAX_LABEL_RESULTS  //google cloud vision으로 부터 어떤 결과를 받는데, 그 결과값을 10개만 받겠다고 지정
                         add(labelDetection)
                     }
                 }
                 add(annotateImageRequest)
+                //여기까지 요청 설정해주는 부분
             }
         }
         val annotateRequest = vision.Images().annotate(batchAnnotateImagesRequest)
         annotateRequest.setDisableGZipContent(true)
         return annotateRequest
     }
+    //여기까지 google api로 보낼 request를 만드는 부분
 
     //AsyncTack
     //inner class로 만듬
