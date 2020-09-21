@@ -1,5 +1,6 @@
 package kr.co.jin0yoon.image_analysis_google_vision_api
 
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.AsyncTask
 import com.google.api.client.extensions.android.http.AndroidHttp
@@ -8,24 +9,32 @@ import com.google.api.services.vision.v1.Vision
 import com.google.api.services.vision.v1.VisionRequest
 import com.google.api.services.vision.v1.VisionRequestInitializer
 import com.google.api.services.vision.v1.model.*
-import kotlinx.android.synthetic.main.main_analyze_view.*
 import java.io.ByteArrayOutputStream
 import java.lang.Exception
 import java.lang.ref.WeakReference
 import java.util.*
 
-class LabelDetectionTask (){
+class LabelDetectionTask(
+    private val packageName: String,
+    private val packageManager: PackageManager,
+    private val activity: MainActivity)
+{
+
+    private val CLOUD_VISION_API_KEY = "AIzaSyAsRG3GL6duexyGSzO6l70UHejNUJJQniQ"
+    private val ANDROID_PACKAGE_HEADER = "X-Android-Package"
+    private val ANDROID_CERT_HEADER = "X-Android-Cert"
+    private val MAX_RESULTS = 10
 
     private fun requestCloudVisionApi(bitmap: Bitmap){
         //AsyncTask를 만들어서 사용
-        val visionTask = ImageRequestTask(this, prepareImageRequest(bitmap))  //Vision.Images.Annotate를 만들어주어야 하는데, 이걸 만들어주는 prepareImageRequest() 함수를 만들었음.
-        visionTask.execute()    //visionTask를 실행
+//        val visionTask = ImageRequestTask(this, prepareImageRequest(bitmap))  //Vision.Images.Annotate를 만들어주어야 하는데, 이걸 만들어주는 prepareImageRequest() 함수를 만들었음.
+//        visionTask.execute()    //visionTask를 실행
     }
 
     //AsyncTack
     //inner class로 만듬
     inner class ImageRequestTask constructor(
-        activity: MainActivity,
+//        activity: MainActivity,   //위에서 activity 받아옴
         val request: Vision.Images.Annotate  //request는 Vision.Images.Annotate type
 
         //kotlin에는 constructor가 2가지 종류가 있음
@@ -74,7 +83,7 @@ class LabelDetectionTask (){
             //이러한 경우를 대처하기 위한 방어코드
             val activity = weakReference.get()
             if (activity != null && !activity.isFinishing){  //!activity.isFinishing -> activity가 종료되는 중이 아니라면
-                uploaded_image_result.text = result
+//                uploaded_image_result.text = result
             }
         }
 
@@ -137,7 +146,7 @@ class LabelDetectionTask (){
                     init {
                         val labelDetection = Feature()   //labelDetection이라는 feature를 만듬
                         labelDetection.type = "LABEL_DETECTION"  //feature의 type을 "LABEL_DETECTION"으로 해줌
-                        labelDetection.maxResults = MAX_LABEL_RESULTS  //google cloud vision으로 부터 어떤 결과를 받는데, 그 결과값을 10개만 받겠다고 지정
+                        labelDetection.maxResults = MAX_RESULTS  //google cloud vision으로 부터 어떤 결과를 받는데, 그 결과값을 10개만 받겠다고 지정
                         add(labelDetection)
                     }
                 }
