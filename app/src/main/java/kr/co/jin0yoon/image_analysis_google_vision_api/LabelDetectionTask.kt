@@ -3,6 +3,7 @@ package kr.co.jin0yoon.image_analysis_google_vision_api
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.AsyncTask
+import android.util.Log
 import com.google.api.client.extensions.android.http.AndroidHttp
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.vision.v1.Vision
@@ -25,10 +26,13 @@ class LabelDetectionTask(
     private val ANDROID_CERT_HEADER = "X-Android-Cert"
     private val MAX_RESULTS = 10
 
-    private fun requestCloudVisionApi(bitmap: Bitmap){
+    fun requestCloudVisionApi(bitmap: Bitmap){
         //AsyncTask를 만들어서 사용
 //        val visionTask = ImageRequestTask(this, prepareImageRequest(bitmap))  //Vision.Images.Annotate를 만들어주어야 하는데, 이걸 만들어주는 prepareImageRequest() 함수를 만들었음.
 //        visionTask.execute()    //visionTask를 실행
+
+        val visionTask = ImageRequestTask(prepareImageRequest(bitmap))
+        visionTask.execute()
     }
 
     //AsyncTack
@@ -84,6 +88,7 @@ class LabelDetectionTask(
             val activity = weakReference.get()
             if (activity != null && !activity.isFinishing){  //!activity.isFinishing -> activity가 종료되는 중이 아니라면
 //                uploaded_image_result.text = result
+                Log.d("test", "result : " + result)
             }
         }
 

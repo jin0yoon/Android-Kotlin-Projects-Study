@@ -37,11 +37,22 @@ class MainActivity : AppCompatActivity() {
     private val FILE_NAME = "picture.jpg"
     private var uploadChooser : UploadChooser? = null
 
+    private var labelDetectionTask: LabelDetectionTask? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //command + p -> 뭘 넣어야 하는지 보여줌
+        //코틀린 함수끼리만 사용할 수 있는 기능
+        //명시적으로 파라미터 이름을 써서 "파라미터 = "을 사용하면 순서가 바뀌어도 가능
+        //파라미터가 많은 경우에 사용하면 좋음
+        labelDetectionTask = LabelDetectionTask(
+            packageName = packageName,
+            packageManager = packageManager,
+            activity = this
+        )
         setUpListener()
     }
 
@@ -163,6 +174,11 @@ class MainActivity : AppCompatActivity() {
         //업로드 할 사진이 준비되어 있는 상황이므로 여기에서 google vision api로 사진을 전송한다.
         //AsyncTask를 사용
        requestCloudVisionApi(bitmap)
+    }
+
+    private fun requestCloudVisionApi(bitmap: Bitmap){
+        //생성이 되었다면 이하 작업을 하고, 생성이 되지 않으면 이하 작업을 하지 않도록 하여 크래시를 방지하기 위해  ?를 사용함
+        labelDetectionTask?.requestCloudVisionApi(bitmap)
     }
 
     //리펙토링 -> 여기 있던 google api 관련 코드들을 LabelDetectionTask.kt 파일로 옮김
