@@ -178,7 +178,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestCloudVisionApi(bitmap: Bitmap){
         //생성이 되었다면 이하 작업을 하고, 생성이 되지 않으면 이하 작업을 하지 않도록 하여 크래시를 방지하기 위해  ?를 사용함
-        labelDetectionTask?.requestCloudVisionApi(bitmap)
+        labelDetectionTask?.requestCloudVisionApi(
+            bitmap,
+            object : LabelDetectionTask.LabelDetectionNotifierInterface{
+                override fun notifyResult(result: String) {
+                    uploaded_image_result.text = result
+                }
+            })
     }
 
     //리펙토링 -> 여기 있던 google api 관련 코드들을 LabelDetectionTask.kt 파일로 옮김

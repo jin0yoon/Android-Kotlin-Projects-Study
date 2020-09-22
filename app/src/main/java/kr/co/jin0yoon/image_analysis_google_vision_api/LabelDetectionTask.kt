@@ -26,13 +26,25 @@ class LabelDetectionTask(
     private val ANDROID_CERT_HEADER = "X-Android-Cert"
     private val MAX_RESULTS = 10
 
-    fun requestCloudVisionApi(bitmap: Bitmap){
-        //AsyncTask를 만들어서 사용
-//        val visionTask = ImageRequestTask(this, prepareImageRequest(bitmap))  //Vision.Images.Annotate를 만들어주어야 하는데, 이걸 만들어주는 prepareImageRequest() 함수를 만들었음.
-//        visionTask.execute()    //visionTask를 실행
+    private var labelDetectionNotifierInterface: LabelDetectionNotifierInterface? = null
+
+    interface LabelDetectionNotifierInterface{
+        fun notifyResult(result: String)
+    }
+
+    fun requestCloudVisionApi(
+        bitmap: Bitmap,
+        labelDetectionNotifierInterface: LabelDetectionNotifierInterface
+    ){
+        this.labelDetectionNotifierInterface = labelDetectionNotifierInterface
 
         val visionTask = ImageRequestTask(prepareImageRequest(bitmap))
         visionTask.execute()
+
+
+        //AsyncTask를 만들어서 사용
+//        val visionTask = ImageRequestTask(this, prepareImageRequest(bitmap))  //Vision.Images.Annotate를 만들어주어야 하는데, 이걸 만들어주는 prepareImageRequest() 함수를 만들었음.
+//        visionTask.execute()    //visionTask를 실행
     }
 
     //AsyncTack
@@ -88,7 +100,11 @@ class LabelDetectionTask(
             val activity = weakReference.get()
             if (activity != null && !activity.isFinishing){  //!activity.isFinishing -> activity가 종료되는 중이 아니라면
 //                uploaded_image_result.text = result
-                Log.d("test", "result : " + result)
+//                Log.d("test", "result : " + result)
+                result?.let {
+                    labelDetectionNotifierInterface?.notifyResult(it)
+                }
+
             }
         }
 
