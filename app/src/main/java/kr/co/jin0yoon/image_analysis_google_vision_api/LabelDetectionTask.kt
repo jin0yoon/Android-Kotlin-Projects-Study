@@ -167,7 +167,7 @@ class LabelDetectionTask(
                     init {
                         val labelDetection = Feature()   //labelDetection이라는 feature를 만듬
                         labelDetection.type = "LABEL_DETECTION"  //feature의 type을 "LABEL_DETECTION"으로 해줌
-//                        labelDetection.type = "LANDMARK_DETECTION"  //response는 받아오지만 결과를 보여주는 부분에 문제가 있음
+//                        labelDetection.type = "LANDMARK_DETECTION"  //response는 받아오지만 결과를 보여주는 부분에 문제가 있음 -> 원하는 형태로 바꿔야 함 -> 문서를 보면서 코드를 바꿔보면 됨
                         labelDetection.maxResults = MAX_RESULTS  //google cloud vision으로 부터 어떤 결과를 받는데, 그 결과값을 10개만 받겠다고 지정
                         add(labelDetection)
                     }
@@ -188,6 +188,7 @@ class LabelDetectionTask(
     private fun convertResponseToString(response: BatchAnnotateImagesResponse) : String {
         val message = StringBuilder("분석 결과\n")
         val labels = response.responses[0].labelAnnotations
+//        val labels = response.responses[0].landmarkAnnotations   //landmarkAnnotations로 변경해야 함
         labels?.let {
             it.forEach {
                 //String.format -> string을 정해준 형태로 변환해줌
