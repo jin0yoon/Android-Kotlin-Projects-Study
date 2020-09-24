@@ -13,7 +13,9 @@ class DetectionChooser : DialogFragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+        //layout과 연결
+        return inflater.inflate(R.layout.detection_chooser, container, false)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
