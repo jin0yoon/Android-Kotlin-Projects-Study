@@ -173,7 +173,8 @@ class MainActivity : AppCompatActivity() {
 
         //업로드 할 사진이 준비되어 있는 상황이므로 여기에서 google vision api로 사진을 전송한다.
         //AsyncTask를 사용
-       requestCloudVisionApi(bitmap)
+//       requestCloudVisionApi(bitmap)
+        DetectionChooser().show(supportFragmentManager, "")
     }
 
     private fun requestCloudVisionApi(bitmap: Bitmap){
