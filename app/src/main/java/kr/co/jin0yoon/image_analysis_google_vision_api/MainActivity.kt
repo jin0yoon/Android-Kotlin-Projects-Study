@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.google.api.client.extensions.android.http.AndroidHttp
@@ -166,7 +167,7 @@ class MainActivity : AppCompatActivity() {
             bitmap = ImageDecoder.decodeBitmap(decode)
 
             //bitmap을 ImageView에 넣어주면 됨
-            uploaded_image.setImageBitmap(bitmap)
+//            uploaded_image.setImageBitmap(bitmap)
         }
 
         uploadChooser?.dismiss()
@@ -174,7 +175,22 @@ class MainActivity : AppCompatActivity() {
         //업로드 할 사진이 준비되어 있는 상황이므로 여기에서 google vision api로 사진을 전송한다.
         //AsyncTask를 사용
 //       requestCloudVisionApi(bitmap)
-        DetectionChooser().show(supportFragmentManager, "")
+//        DetectionChooser().show(supportFragmentManager, "")
+        DetectionChooser().apply {
+            addDetectionChooserNotifierInterface(object : DetectionChooser.DetectionChooserNotifierInterface{
+                override fun detectLabel() {
+//                    Log.d("test", "detectLabel")
+                    //사용자가 label이나 landmark를 선택했을 경우에만 이미지가 보여지도록. cancel 했을 경우에는 보여지면 안됨
+                    findViewById<ImageView>(R.id.uploaded_image).setImageBitmap(bitmap)
+                }
+
+                override fun detectLandmark() {
+//                    Log.d("test", "detectLandmark")
+                    //사용자가 label이나 landmark를 선택했을 경우에만 이미지가 보여지도록. cancel 했을 경우에는 보여지면 안됨
+                    findViewById<ImageView>(R.id.uploaded_image).setImageBitmap(bitmap)
+                }
+            })
+        }.show(supportFragmentManager, "")
     }
 
     private fun requestCloudVisionApi(bitmap: Bitmap){
