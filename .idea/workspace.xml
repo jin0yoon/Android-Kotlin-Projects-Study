@@ -21,14 +21,12 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/kr/co/jin0yoon/image_analysis_google_vision_api/LabelDetectionTask.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/kr/co/jin0yoon/image_analysis_google_vision_api/LabelDetectionTask.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/kr/co/jin0yoon/image_analysis_google_vision_api/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/kr/co/jin0yoon/image_analysis_google_vision_api/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,9 +50,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="valueResourceFile" />
-        <option value="layoutResourceFile" />
         <option value="resourceFile" />
         <option value="Kotlin File" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -167,47 +165,56 @@
       <screen x="0" y="23" width="1792" height="1036" />
     </state>
     <state x="584" y="284" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1792.1036@0.23.1792.1036" timestamp="1599125879972" />
-    <state x="484" y="297" key="AndroidCreateResourceFileDialog" timestamp="1596973347135">
-      <screen x="0" y="0" width="1792" height="1120" />
+    <state x="484" y="300" key="AndroidCreateResourceFileDialog" timestamp="1600947851458">
+      <screen x="0" y="23" width="1792" height="1043" />
     </state>
     <state x="484" y="297" key="AndroidCreateResourceFileDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1596973347135" />
     <state x="484" y="293" key="AndroidCreateResourceFileDialog/0.23.1792.1017@0.23.1792.1017" timestamp="1596013405140" />
     <state x="484" y="293" key="AndroidCreateResourceFileDialog/0.23.1792.1018@0.23.1792.1018" timestamp="1595850965594" />
+    <state x="484" y="300" key="AndroidCreateResourceFileDialog/0.23.1792.1043@0.23.1792.1043" timestamp="1600947851458" />
     <state x="355" y="134" key="CommitChangelistDialog2" timestamp="1598865902412">
       <screen x="0" y="23" width="1792" height="1024" />
     </state>
     <state x="355" y="134" key="CommitChangelistDialog2/0.23.1792.1024@0.23.1792.1024" timestamp="1598865902412" />
-    <state width="1750" height="275" key="GridCell.Tab.0.bottom" timestamp="1598522299898">
-      <screen x="0" y="23" width="1792" height="1026" />
+    <state width="1750" height="281" key="GridCell.Tab.0.bottom" timestamp="1601005170871">
+      <screen x="0" y="23" width="1792" height="1043" />
     </state>
     <state width="1122" height="317" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1597907834064" />
     <state width="1750" height="276" key="GridCell.Tab.0.bottom/0.23.1792.1017@0.23.1792.1017" timestamp="1596015728877" />
     <state width="1750" height="275" key="GridCell.Tab.0.bottom/0.23.1792.1026@0.23.1792.1026" timestamp="1598522299898" />
-    <state width="1750" height="275" key="GridCell.Tab.0.center" timestamp="1598522299898">
-      <screen x="0" y="23" width="1792" height="1026" />
+    <state width="1750" height="281" key="GridCell.Tab.0.bottom/0.23.1792.1043@0.23.1792.1043" timestamp="1601005170871" />
+    <state width="1750" height="281" key="GridCell.Tab.0.bottom/0.23.1792.1044@0.23.1792.1044" timestamp="1600781911552" />
+    <state width="1750" height="281" key="GridCell.Tab.0.center" timestamp="1601005170870">
+      <screen x="0" y="23" width="1792" height="1043" />
     </state>
     <state width="1122" height="317" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1597907834063" />
     <state width="1750" height="276" key="GridCell.Tab.0.center/0.23.1792.1017@0.23.1792.1017" timestamp="1596015728876" />
     <state width="1750" height="275" key="GridCell.Tab.0.center/0.23.1792.1026@0.23.1792.1026" timestamp="1598522299898" />
-    <state width="1750" height="275" key="GridCell.Tab.0.left" timestamp="1598522299897">
-      <screen x="0" y="23" width="1792" height="1026" />
+    <state width="1750" height="281" key="GridCell.Tab.0.center/0.23.1792.1043@0.23.1792.1043" timestamp="1601005170870" />
+    <state width="1750" height="281" key="GridCell.Tab.0.center/0.23.1792.1044@0.23.1792.1044" timestamp="1600781911551" />
+    <state width="1750" height="281" key="GridCell.Tab.0.left" timestamp="1601005170869">
+      <screen x="0" y="23" width="1792" height="1043" />
     </state>
     <state width="1122" height="317" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1597907834062" />
     <state width="1750" height="276" key="GridCell.Tab.0.left/0.23.1792.1017@0.23.1792.1017" timestamp="1596015728876" />
     <state width="1750" height="275" key="GridCell.Tab.0.left/0.23.1792.1026@0.23.1792.1026" timestamp="1598522299897" />
-    <state width="1750" height="275" key="GridCell.Tab.0.right" timestamp="1598522299898">
-      <screen x="0" y="23" width="1792" height="1026" />
+    <state width="1750" height="281" key="GridCell.Tab.0.left/0.23.1792.1043@0.23.1792.1043" timestamp="1601005170869" />
+    <state width="1750" height="281" key="GridCell.Tab.0.left/0.23.1792.1044@0.23.1792.1044" timestamp="1600781911551" />
+    <state width="1750" height="281" key="GridCell.Tab.0.right" timestamp="1601005170871">
+      <screen x="0" y="23" width="1792" height="1043" />
     </state>
     <state width="1122" height="317" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1597907834063" />
     <state width="1750" height="276" key="GridCell.Tab.0.right/0.23.1792.1017@0.23.1792.1017" timestamp="1596015728876" />
     <state width="1750" height="275" key="GridCell.Tab.0.right/0.23.1792.1026@0.23.1792.1026" timestamp="1598522299898" />
+    <state width="1750" height="281" key="GridCell.Tab.0.right/0.23.1792.1043@0.23.1792.1043" timestamp="1601005170871" />
+    <state width="1750" height="281" key="GridCell.Tab.0.right/0.23.1792.1044@0.23.1792.1044" timestamp="1600781911552" />
     <state x="397" y="172" key="SettingsEditor" timestamp="1600586044904">
       <screen x="0" y="23" width="1792" height="1042" />
     </state>
     <state x="397" y="170" key="SettingsEditor/0.23.1792.1024@0.23.1792.1024" timestamp="1598858817089" />
     <state x="397" y="172" key="SettingsEditor/0.23.1792.1041@0.23.1792.1041" timestamp="1600072713696" />
     <state x="397" y="172" key="SettingsEditor/0.23.1792.1042@0.23.1792.1042" timestamp="1600586044904" />
-    <state x="545" y="373" key="com.intellij.ide.util.TipDialog" timestamp="1600584078746">
+    <state x="545" y="373" key="com.intellij.ide.util.TipDialog" timestamp="1601087235012">
       <screen x="0" y="23" width="1792" height="1042" />
     </state>
     <state x="545" y="376" key="com.intellij.ide.util.TipDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1598439820045" />
@@ -218,7 +225,7 @@
     <state x="545" y="371" key="com.intellij.ide.util.TipDialog/0.23.1792.1036@0.23.1792.1036" timestamp="1599217245402" />
     <state x="545" y="371" key="com.intellij.ide.util.TipDialog/0.23.1792.1037@0.23.1792.1037" timestamp="1599047175129" />
     <state x="545" y="373" key="com.intellij.ide.util.TipDialog/0.23.1792.1041@0.23.1792.1041" timestamp="1600072693843" />
-    <state x="545" y="373" key="com.intellij.ide.util.TipDialog/0.23.1792.1042@0.23.1792.1042" timestamp="1600584078746" />
+    <state x="545" y="373" key="com.intellij.ide.util.TipDialog/0.23.1792.1042@0.23.1792.1042" timestamp="1601087235012" />
     <state x="676" y="455" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598865894604">
       <screen x="0" y="23" width="1792" height="1024" />
     </state>
