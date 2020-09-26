@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity() {
 
     private var labelDetectionTask: LabelDetectionTask? = null
 
+    val LABEL_DETECTION_REQUEST = "label_detection_request"
+    val LANDMARK_DETECTION_REQUEST = "landmark_detection_request"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -172,9 +175,7 @@ class MainActivity : AppCompatActivity() {
 
         uploadChooser?.dismiss()
 
-        //업로드 할 사진이 준비되어 있는 상황이므로 여기에서 google vision api로 사진을 전송한다.
-        //AsyncTask를 사용
-//       requestCloudVisionApi(bitmap)
+
 //        DetectionChooser().show(supportFragmentManager, "")
         DetectionChooser().apply {
             addDetectionChooserNotifierInterface(object : DetectionChooser.DetectionChooserNotifierInterface{
@@ -182,18 +183,33 @@ class MainActivity : AppCompatActivity() {
 //                    Log.d("test", "detectLabel")
                     //사용자가 label이나 landmark를 선택했을 경우에만 이미지가 보여지도록. cancel 했을 경우에는 보여지면 안됨
                     findViewById<ImageView>(R.id.uploaded_image).setImageBitmap(bitmap)
+
+                    //업로드 할 사진이 준비되어 있는 상황이므로 여기에서 google vision api로 사진을 전송한다.
+                    //AsyncTask를 사용
+                    requestCloudVisionApi(bitmap, LABEL_DETECTION_REQUEST)
                 }
 
                 override fun detectLandmark() {
 //                    Log.d("test", "detectLandmark")
                     //사용자가 label이나 landmark를 선택했을 경우에만 이미지가 보여지도록. cancel 했을 경우에는 보여지면 안됨
                     findViewById<ImageView>(R.id.uploaded_image).setImageBitmap(bitmap)
+
+                    //업로드 할 사진이 준비되어 있는 상황이므로 여기에서 google vision api로 사진을 전송한다.
+                    //AsyncTask를 사용
+                    requestCloudVisionApi(bitmap, LANDMARK_DETECTION_REQUEST)
                 }
             })
         }.show(supportFragmentManager, "")
+
+        //업로드 할 사진이 준비되어 있는 상황이므로 여기에서 google vision api로 사진을 전송한다.
+        //AsyncTask를 사용
+//       requestCloudVisionApi(bitmap)
+
     }
 
-    private fun requestCloudVisionApi(bitmap: Bitmap){
+    //실제 google api에 요청을 보냄
+    //파라미터를 추가해서 어떤 요청으로 request를 보낸 것인지 구분
+    private fun requestCloudVisionApi(bitmap: Bitmap, requestType: String){
         //생성이 되었다면 이하 작업을 하고, 생성이 되지 않으면 이하 작업을 하지 않도록 하여 크래시를 방지하기 위해  ?를 사용함
         labelDetectionTask?.requestCloudVisionApi(
             bitmap,
@@ -201,7 +217,7 @@ class MainActivity : AppCompatActivity() {
                 override fun notifyResult(result: String) {
                     uploaded_image_result.text = result
                 }
-            })
+            }, requestType)
     }
 
     //리펙토링 -> 여기 있던 google api 관련 코드들을 LabelDetectionTask.kt 파일로 옮김

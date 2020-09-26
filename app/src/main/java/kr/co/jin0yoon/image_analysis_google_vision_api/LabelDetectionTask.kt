@@ -3,7 +3,6 @@ package kr.co.jin0yoon.image_analysis_google_vision_api
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.AsyncTask
-import android.util.Log
 import com.google.api.client.extensions.android.http.AndroidHttp
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.vision.v1.Vision
@@ -28,14 +27,19 @@ class LabelDetectionTask(
 
     private var labelDetectionNotifierInterface: LabelDetectionNotifierInterface? = null
 
+    private var requestType: String? = null
+
     interface LabelDetectionNotifierInterface{
         fun notifyResult(result: String)
     }
 
     fun requestCloudVisionApi(
         bitmap: Bitmap,
-        labelDetectionNotifierInterface: LabelDetectionNotifierInterface
+        labelDetectionNotifierInterface: LabelDetectionNotifierInterface,
+        requestType: String
     ){
+        this.requestType = requestType
+
         this.labelDetectionNotifierInterface = labelDetectionNotifierInterface
 
         val visionTask = ImageRequestTask(prepareImageRequest(bitmap))
@@ -83,7 +87,7 @@ class LabelDetectionTask(
             try {
                 //execute는 google api에 요청한다는 것
                 val response = request.execute()  //request.excute()로 request를 보내면 response를 받아줌
-                return convertResponseToString(response)   //결과인 이미지 분석 결과를 string으로 표시를 할 것이므로 response를 string으로 변환을 해줘야 함
+                return findProperResponseType(response)   //결과인 이미지 분석 결과를 string으로 표시를 할 것이므로 response를 string으로 변환을 해줘야 함
             }catch (e: Exception){     //예외처리
                 e.printStackTrace()
             }
@@ -166,7 +170,17 @@ class LabelDetectionTask(
                 annotateImageRequest.features = object : ArrayList<Feature>(){
                     init {
                         val labelDetection = Feature()   //labelDetection이라는 feature를 만듬
-                        labelDetection.type = "LABEL_DETECTION"  //feature의 type을 "LABEL_DETECTION"으로 해줌
+
+                        when (requestType){
+                            activity.LABEL_DETECTION_REQUEST -> {
+                                labelDetection.type = "LABEL_DETECTION"  //feature의 type을 "LABEL_DETECTION"으로 해줌
+                            }
+                            activity.LANDMARK_DETECTION_REQUEST -> {
+                                labelDetection.type = "LANDMARK_DETECTION"  //feature의 type을 "LABEL_DETECTION"으로 해줌
+                            }
+                        }
+
+//                        labelDetection.type = "LABEL_DETECTION"  //feature의 type을 "LABEL_DETECTION"으로 해줌
 //                        labelDetection.type = "LANDMARK_DETECTION"  //response는 받아오지만 결과를 보여주는 부분에 문제가 있음 -> 원하는 형태로 바꿔야 함 -> 문서를 보면서 코드를 바꿔보면 됨
                         labelDetection.maxResults = MAX_RESULTS  //google cloud vision으로 부터 어떤 결과를 받는데, 그 결과값을 10개만 받겠다고 지정
                         add(labelDetection)
@@ -185,22 +199,51 @@ class LabelDetectionTask(
     //response를 string으로 바꿔주는 함수
     //google vision api에게 이미지를 전달하게 되면, response로 BatchAnnotateImagesResponse의 형태로 보내줌
     //BatchAnnotateImagesResponse 형태로 받아진 response를 우리가 원하는 형태인 string으로 바꿔주면 됨
-    private fun convertResponseToString(response: BatchAnnotateImagesResponse) : String {
-        val message = StringBuilder("분석 결과\n")
-        val labels = response.responses[0].labelAnnotations
-//        val labels = response.responses[0].landmarkAnnotations   //landmarkAnnotations로 변경해야 함
-        labels?.let {
-            it.forEach {
-                //String.format -> string을 정해준 형태로 변환해줌
-                //google vision api는 기본적으로 영어로 주기 때문에 언어는 영어인 Locale.US로 지정
-                //%.3f -> 소수점 네자리까지만
-                //string은 %s
-                //'3.3333: 설명' 의 형태
-                message.append(String.format(Locale.US, "%.3f: %s", it.score, it.description))
-                message.append("\n")  //줄바꿈
+    private fun findProperResponseType(response: BatchAnnotateImagesResponse) : String {
+
+
+        when (requestType){
+            activity.LABEL_DETECTION_REQUEST -> {
+                return convertResponseToString(response.responses[0].labelAnnotations)
+//                labels = response.responses[0].labelAnnotations
             }
-            return message.toString()
+            activity.LANDMARK_DETECTION_REQUEST -> {
+                return convertResponseToString(response.responses[0].landmarkAnnotations)
+//                labels = response.responses[0].landmarkAnnotations
+            }
         }
+//        val labels = response.responses[0].labelAnnotations
+//        val labels = response.responses[0].landmarkAnnotations   //landmarkAnnotations로 변경해야 함
+
         return "분석 실패"
+    }
+
+    private fun convertResponseToString(labels: List<EntityAnnotation>): String{
+//        labels?.let {
+//            it.forEach {
+//                //String.format -> string을 정해준 형태로 변환해줌
+//                //google vision api는 기본적으로 영어로 주기 때문에 언어는 영어인 Locale.US로 지정
+//                //%.3f -> 소수점 네자리까지만
+//                //string은 %s
+//                //'3.3333: 설명' 의 형태
+//                message.append(String.format(Locale.US, "%.3f: %s", it.score, it.description))
+//                message.append("\n")  //줄바꿈
+//            }
+//            return message.toString()
+//        }
+
+        val message = StringBuilder("분석 결과\n")
+
+        labels.forEach {
+            //String.format -> string을 정해준 형태로 변환해줌
+            //google vision api는 기본적으로 영어로 주기 때문에 언어는 영어인 Locale.US로 지정
+            //%.3f -> 소수점 네자리까지만
+            //string은 %s
+            //'3.3333: 설명' 의 형태
+            message.append(String.format(Locale.US, "%.3f: %s", it.score, it.description))
+            message.append("\n")  //줄바꿈
+        }
+        return message.toString()
+
     }
 }
