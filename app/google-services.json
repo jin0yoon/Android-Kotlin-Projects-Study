@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "707980351830",
+    "firebase_url": "https://weather-kotlin-1646f.firebaseio.com",
+    "project_id": "weather-kotlin-1646f",
+    "storage_bucket": "weather-kotlin-1646f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707980351830:android:f5008b6dcab75802975ef7",
+        "android_client_info": {
+          "package_name": "kr.co.jin0yoon.weather_kotlin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707980351830-qrne69skpnnjafpkg0jppo257kn4g90a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbl_3GSRVVsq6dXpu0PrtU2zZ47B9TEaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707980351830-qrne69skpnnjafpkg0jppo257kn4g90a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
