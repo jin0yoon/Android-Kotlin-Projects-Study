@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "Image_analysis_google_vision_api"
